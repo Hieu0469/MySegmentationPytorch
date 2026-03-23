@@ -39,8 +39,8 @@ class PSPBlock(nn.Module):
             # ONNX export path: AdaptiveAvgPool2d is often problematic during export.
             # Using F.interpolate with 'area' mode provides the same mathematical result
             # (average pooling) while being more robustly supported.
-            # x = F.interpolate(x, size=(self.pool_size, self.pool_size), mode="area")
-            x = F.adaptive_avg_pool2d(x, (self.pool_size, self.pool_size))
+            x = F.interpolate(x, size=(self.pool_size, self.pool_size), mode="area")
+            # x = F.adaptive_avg_pool2d(x, (self.pool_size, self.pool_size))
             x = self.pool[1](x)  # use only ConvRelu block from pool
         else:
             x = self.pool(x)
